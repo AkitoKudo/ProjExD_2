@@ -62,10 +62,10 @@ def gameover():
     screen.blit(go_img,[0,0])
     fonto=pg.font.Font(None,80)
     txt=fonto.render("Game Over",True,(255,255,255))
-    screen.blit(txt,[800,450])
+    screen.blit(txt,[650,450])
     kk2_img=pg.transform.rotozoom(pg.image.load("fig/8.png"),0,2.0)
-    screen.blit(kk2_img,[400,450])
-    screen.blit(kk2_img,[1200,450])
+    screen.blit(kk2_img,[550,400])
+    screen.blit(kk2_img,[975,400])
     pg.display.update()
     time.sleep(5)
 
