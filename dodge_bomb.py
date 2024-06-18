@@ -12,16 +12,7 @@ DELTA={  # 移動量辞書
     pg.K_RIGHT:(+5,0),
 }
 KOUKATON=pg.image.load("ex2/fig/3.png")
-KOUKAITEN={  #こうかとん回転の辞書
-    (0,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),90,2.0),
-    (+5,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),45,2.0),
-    (+5,0):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),0,2.0),
-    (+5,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),315,2.0),
-    (0,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),270,2.0),
-    (-5,+5):pg.transform.rotozoom(KOUKATON,90,2.0),
-    (-5,0):pg.transform.rotozoom(KOUKATON,0,2.0),
-    (-5,-5):pg.transform.rotozoom(KOUKATON,270,2.0),
-}
+
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def check_bound(obj_rct: pg.rect) -> tuple[bool,bool]:
@@ -49,6 +40,16 @@ def return_KOUKAITEN():
     (-5,-5):pg.transform.rotozoom(KOUKATON,270,2.0),
     (0,0):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),0,2.0),
     }
+
+def bonb_time():
+    bb_accs= [a for a in range(1,11)]
+    up_bb=[]
+    for r in range(1,11):
+        bb_img = pg.Surface((20*r,20*r))
+        pg.draw.circle(bb_img, (255,0,0),(10*r,10*r),10*r)
+        bb_img.set_colorkey((0,0,0))
+        up_bb.append(bb_img)
+    return tuple(bb_accs),tuple(up_bb)
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -87,7 +88,12 @@ def main():
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img, kk_rct)
 
-        bb_rct.move_ip(vx,vy)
+
+        bb_accs,up_bb =bonb_time()
+        avx =vx*bb_accs[min(tmr//500,9)]
+        avy =vy*bb_accs[min(tmr//500,9)]
+        bb_img = up_bb[min(tmr//500,9)]
+        bb_rct.move_ip(avx,avy)
         yoko, tate = check_bound(bb_rct)
         if not yoko:
             vx *=-1
