@@ -11,6 +11,17 @@ DELTA={  # 移動量辞書
     pg.K_LEFT:(-5,0),
     pg.K_RIGHT:(+5,0),
 }
+KOUKATON=pg.image.load("ex2/fig/3.png")
+KOUKAITEN={  #こうかとん回転の辞書
+    (0,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),90,2.0),
+    (+5,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),45,2.0),
+    (+5,0):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),0,2.0),
+    (+5,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),315,2.0),
+    (0,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),270,2.0),
+    (-5,+5):pg.transform.rotozoom(KOUKATON,90,2.0),
+    (-5,0):pg.transform.rotozoom(KOUKATON,0,2.0),
+    (-5,-5):pg.transform.rotozoom(KOUKATON,270,2.0),
+}
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 def check_bound(obj_rct: pg.rect) -> tuple[bool,bool]:
@@ -25,6 +36,19 @@ def check_bound(obj_rct: pg.rect) -> tuple[bool,bool]:
     if obj_rct.top < 0 or HEIGHT < obj_rct.bottom:
         tate = False
     return yoko, tate
+
+def return_KOUKAITEN():
+    return {  #こうかとん回転の辞書
+    (0,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),90,2.0),
+    (+5,-5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),45,2.0),
+    (+5,0):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),0,2.0),
+    (+5,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),315,2.0),
+    (0,+5):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),270,2.0),
+    (-5,+5):pg.transform.rotozoom(KOUKATON,90,2.0),
+    (-5,0):pg.transform.rotozoom(KOUKATON,0,2.0),
+    (-5,-5):pg.transform.rotozoom(KOUKATON,270,2.0),
+    (0,0):pg.transform.rotozoom(pg.transform.flip(KOUKATON,True,False),0,2.0),
+    }
 
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
@@ -58,6 +82,7 @@ def main():
                 sum_mv[1] +=v[1]
 
         kk_rct.move_ip(sum_mv)
+        kk_img=return_KOUKAITEN()[tuple(sum_mv)]
         if check_bound(kk_rct) != (True,True):
             kk_rct.move_ip(-sum_mv[0],-sum_mv[1])
         screen.blit(kk_img, kk_rct)
