@@ -2,6 +2,7 @@ import os
 import random
 import sys
 import pygame as pg
+import time
 
 
 WIDTH, HEIGHT = 1600, 900
@@ -51,6 +52,24 @@ def bonb_time():
         up_bb.append(bb_img)
     return tuple(bb_accs),tuple(up_bb)
 
+def gameover():
+    screen = pg.display.set_mode((WIDTH,HEIGHT))
+    bg_img = pg.image.load("fig/pg_bg.jpg")
+    screen.blit(bg_img,[0,0])
+    go_img=pg.Surface((WIDTH,HEIGHT))
+    pg.draw.rect(go_img,(0,0,0),pg.Rect(0,0,WIDTH,HEIGHT))
+    go_img.set_alpha(127)
+    screen.blit(go_img,[0,0])
+    fonto=pg.font.Font(None,80)
+    txt=fonto.render("Game Over",True,(255,255,255))
+    screen.blit(txt,[800,450])
+    kk2_img=pg.transform.rotozoom(pg.image.load("fig/8.png"),0,2.0)
+    screen.blit(kk2_img,[400,450])
+    screen.blit(kk2_img,[1200,450])
+    pg.display.update()
+    time.sleep(5)
+
+
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -72,6 +91,7 @@ def main():
                 return
             
         if kk_rct.colliderect(bb_rct):
+            gameover()
             return
         screen.blit(bg_img, [0, 0]) 
 
